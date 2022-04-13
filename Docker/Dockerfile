@@ -47,7 +47,7 @@ RUN conda install -y python=${python_version} && \
       matplotlib=2.1.1 \
       mkl \
       nose \
-      numpy=1.13.3 \
+      numpy=1.19 \
       scipy \
       rasterio \
       pydot \
