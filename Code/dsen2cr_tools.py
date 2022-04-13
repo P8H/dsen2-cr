@@ -2,10 +2,10 @@ import csv
 import os
 from random import shuffle
 
-from dataIO import make_dir, DataGenerator, process_predicted
+from tools.dataIO import make_dir, DataGenerator, process_predicted
 from keras.callbacks import ModelCheckpoint, CSVLogger
 from keras.utils import plot_model
-from myCallbacks import CSV_NBatchLogger, NBatchLogger, TensorBoardWrapper
+from tools.myCallbacks import CSV_NBatchLogger, NBatchLogger, TensorBoardWrapper
 
 
 def train_dsen2cr(model, model_name, base_out_path, resume_file, train_filelist, val_filelist, lr, log_step_freq,
