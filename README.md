@@ -49,7 +49,7 @@ A conda environment with the required dependencies can be created with
 ```bash
 conda create -n dsen2cr_env
 conda activate dsen2cr_env
-conda install -c conda-forge python=3.7 tensorflow-gpu=1.15.0 keras=2.2.4 numpy=1.19 scipy rasterio pydot graphviz h5py
+conda install -c conda-forge python=3.7 tensorflow-gpu=1.15.0 keras=2.2.4 numpy=1.19 matplotlib=2.1.1 scipy rasterio pydot graphviz h5py
 ```
 
 Alternatively, a Dockerfile is provided in `Docker/Dockerfile` which can be used to create a Docker image including CUDA.
