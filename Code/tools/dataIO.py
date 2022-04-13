@@ -13,7 +13,7 @@ from tools.feature_detectors import get_cloud_cloudshadow_mask
 
 def make_dir(dir_path):
     if os.path.isdir(dir_path):
-        print("WARNING: Folder {} exists and content may be overwritten!")
+        print("WARNING: Folder {} exists and content may be overwritten!".format(dir_path))
     else:
         os.makedirs(dir_path)
 
