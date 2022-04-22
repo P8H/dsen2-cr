@@ -43,7 +43,7 @@ RUN conda install -y python=${python_version} && \
       tensorflow-gpu=1.15.0 \
       keras=2.2.4 \
       bcolz \
-      h5py \
+      h5py=2.10.0 \
       matplotlib=2.1.1 \
       mkl \
       nose \
