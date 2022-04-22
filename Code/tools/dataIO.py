@@ -29,7 +29,7 @@ def get_train_val_test_filelists(listpath):
     val_filelist = []
     test_filelist = []
     for f in filelist:
-        line_entries = f[0].split(sep=", ")
+        line_entries = f
         if line_entries[0] == '1':
             train_filelist.append(line_entries)
         if line_entries[0] == '2':
@@ -272,6 +272,7 @@ class DataGenerator(keras.utils.Sequence):
 
         # Find list of IDs
         list_IDs_temp = [self.list_IDs[k] for k in indexes]
+        print('dd', list_IDs_temp)
 
         if self.include_target:
             # Generate data
@@ -350,6 +351,7 @@ class DataGenerator(keras.utils.Sequence):
         return image.astype('float32')
 
     def get_data_image(self, ID, data_type, paramx, paramy):
+        print(ID, data_type, paramx, paramy)
 
         data_path = os.path.join(self.input_data_folder, ID[data_type], ID[4]).lstrip()
 
