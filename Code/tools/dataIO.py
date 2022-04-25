@@ -272,7 +272,6 @@ class DataGenerator(keras.utils.Sequence):
 
         # Find list of IDs
         list_IDs_temp = [self.list_IDs[k] for k in indexes]
-        print('dd', list_IDs_temp)
 
         if self.include_target:
             # Generate data
@@ -351,7 +350,6 @@ class DataGenerator(keras.utils.Sequence):
         return image.astype('float32')
 
     def get_data_image(self, ID, data_type, paramx, paramy):
-        print(ID, data_type, paramx, paramy)
 
         data_path = os.path.join(self.input_data_folder, ID[data_type], ID[4]).lstrip()
 
