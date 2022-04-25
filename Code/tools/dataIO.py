@@ -4,6 +4,7 @@ import os.path
 
 import keras
 import matplotlib
+matplotlib.use('Agg') # Don't use xwindow as backend (needed for servers without display)
 import numpy as np
 import rasterio
 import scipy.signal as scisig
