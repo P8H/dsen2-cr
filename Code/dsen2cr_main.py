@@ -49,19 +49,21 @@ def run_dsen2cr(predict_file=None, resume_file=None):
     data_augmentation = True  # flip and rotate images randomly for data augmentation
 
     random_crop = True  # crop out a part of the input image randomly
-    crop_size = 128  # crop size for training images
+    crop_size = 256 if predict_file else 128  # crop size for training images
+    # Use the smaller crop_size only for training
 
     # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Setup training %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    dataset_list_filepath = '../Data/datasetfilelist.csv'
+    dataset_list_filepath = 'Data/datasetfilelist.csv'
 
-    base_out_path = '/path/to/output/model_runs/'
-    input_data_folder = '/path/to/dataset/parent/folder'
+    base_out_path = 'models'
+    input_data_folder = '/datapond/public_share/eo_data'
 
     # training parameters
     initial_epoch = 0  # start at epoch number
     epochs_nr = 8  # train for this amount of epochs. Checkpoints will be generated at the end of each epoch
-    batch_size = 16  # training batch size to distribute over GPUs
+    batch_size = 1 if predict_file else 1 # training batch size to distribute over GPUs
+    # Watch out: batch_size should be not greater than the max number of training images
 
     # define metric to be optimized
     loss = img_met.carl_error
@@ -81,7 +83,7 @@ def run_dsen2cr(predict_file=None, resume_file=None):
 
     # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Other setup parameters %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    predict_data_type = 'val'  # possible options: 'val' or 'test'
+    predict_data_type = 'test'  # possible options: 'val' or 'test'
 
     log_step_freq = 1  # frequency of logging
 
