@@ -215,8 +215,8 @@ def save_tiff_images(predicted, predicted_images_path, filepath_cloudFree, name,
 
     # Save cloud map as tiff
     file = os.path.join(out_path, name + '_cloud_mask.tif')
-    with rasterio.open(file, 'w', 'GTiff', width=cloud_mask.shape[0], height=cloud_mask.shape[1], count=1, dtype='int8', crs=f_crs, transform=f_transform) as dst:
-        dst.write(cloud_mask.astype('int8'), indexes=1)
+    with rasterio.open(file, 'w', 'GTiff', width=cloud_mask.shape[0], height=cloud_mask.shape[1], count=1, dtype='int16', crs=f_crs, transform=f_transform) as dst:
+        dst.write(cloud_mask.astype('int16'), indexes=1)
 
 def process_predicted(predicted, ID, predicted_images_path, scale, cloud_threshold, input_data_folder):
     for i, data_image in enumerate(predicted):
