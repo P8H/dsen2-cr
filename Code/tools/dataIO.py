@@ -142,7 +142,7 @@ def generate_output_images(predicted, ID, predicted_images_path, input_data_fold
     save_single_images(sar_preview, cloudy_preview, cloudFree_preview, predicted_preview, cloudy_preview_brightened,
                        cloud_mask, predicted_images_path, scene_name)
 
-    save_predicted_tiff(predicted, predicted_images_path, filepath_cloudFree, scene_name)
+    save_tiff_images(predicted, predicted_images_path, filepath_cloudFree, scene_name, cloud_mask)
 
     return
 
@@ -195,23 +195,28 @@ def save_single_images(sar_preview, cloudy_preview, cloudFree_preview, predicted
 
     return
 
-def save_predicted_tiff(predicted, predicted_images_path, filepath_cloudFree, name):
+def save_tiff_images(predicted, predicted_images_path, filepath_cloudFree, name, cloud_mask):
     with rasterio.open(filepath_cloudFree) as src: # Use the input files for retrieving metadata
         f_dtype = src.dtypes[0]
         f_crs = src.crs
         f_transform = src.transform
-        array = src.read()
-        #import pandas as pd
-        #df = pd.DataFrame(array[:, :, 1].T)
-        #print(df.describe())
+        target_array = src.read()
 
+    # Save prediction
     out_path = make_dir(os.path.join(predicted_images_path, name))
     file = os.path.join(out_path, name + '.tif')
     with rasterio.open(file, 'w', 'GTiff', width=predicted.shape[1], height=predicted.shape[2], count=13, dtype=f_dtype, crs=f_crs, transform=f_transform) as dst:
             dst.write(predicted[0:13].astype(f_dtype))
 
-    #df2 = pd.DataFrame(predicted[0:13].astype(f_dtype)[:, :, 1].T)
-    #print(df2.describe())
+    # Save tiff with error (prediction - target) per channel
+    file = os.path.join(out_path, name + '_errors.tif')
+    with rasterio.open(file, 'w', 'GTiff', width=predicted.shape[1], height=predicted.shape[2], count=13, dtype='int32', crs=f_crs, transform=f_transform) as dst:
+        dst.write(predicted[0:13].astype('int32') - target_array.astype('int32'))
+
+    # Save cloud map as tiff
+    file = os.path.join(out_path, name + '_cloud_mask.tif')
+    with rasterio.open(file, 'w', 'GTiff', width=cloud_mask.shape[0], height=cloud_mask.shape[1], count=1, dtype='int8', crs=f_crs, transform=f_transform) as dst:
+        dst.write(cloud_mask.astype('int8'), indexes=1)
 
 def process_predicted(predicted, ID, predicted_images_path, scale, cloud_threshold, input_data_folder):
     for i, data_image in enumerate(predicted):
